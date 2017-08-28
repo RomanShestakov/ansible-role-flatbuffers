@@ -7,14 +7,17 @@
   register: fb_downloaded
 
 - name: FB | Make build folder
+  become: true
   file: path="{{ fb_build_dir }}" state=directory
   when: fb_downloaded.changed
 
 - name: FB | cmake
+  become: true
   command: chdir={{ fb_build_dir }} {{ fb_tmp }}
   when: fb_downloaded.changed
 
 - name: FB | make
+  become: true
   command: chdir="{{ fb_build_dir }}" make
   when: fb_downloaded.changed
 
