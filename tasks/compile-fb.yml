@@ -1,9 +1,15 @@
 # file: ansible-role-flatbuffers/tasks/source.yml
 
+- name: FB | check if FB is already installed
+  stat:
+    path: "{{ fb_install_dir }}/include/flatbuffers"
+  register: fb_exists
+
 - name: FB | get from git repository
   git: repo="{{ fb_repo_url }}"
        dest="{{ fb_tmp }}"
        version="{{ fb_version }}"
+  when: not fb_exists.stat.exists
   register: fb_downloaded
 
 - name: FB | Make build folder
